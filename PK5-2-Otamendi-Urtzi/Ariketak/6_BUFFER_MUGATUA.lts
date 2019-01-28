@@ -1,0 +1,19 @@
+
+//Urtzi Otamendi Etxabe
+//2017/12/27
+
+//Bufer luzera
+const N = 5
+range R =0..N
+
+IDAZLEA = (put->IDAZLEA).
+IRAKURLEA = (get->IRAKURLEA).
+
+//i buferrean libre dagoen lehena
+
+
+BUFFER = BUFFER[0],
+BUFFER[i:R] = ( when (i<N) put-> jarri[i] ->BUFFER[i+1]
+			  | when (i>0) get-> hartu[i] ->BUFFER[i-1]
+			  ).
+||BUFFERMUGATUA = (IDAZLEA || IRAKURLEA || BUFFER).

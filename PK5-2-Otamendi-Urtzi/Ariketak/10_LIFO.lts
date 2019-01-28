@@ -1,0 +1,25 @@
+//Urtzi Otamendi Etxabe
+//2017/11/16
+
+
+
+//Kabitzen diren kopuru maximoa
+const KopuruMax = 3
+range KR = 0..KopuruMax
+
+//Prozesu kopurua
+const ProzesuMax = 5
+range PR = 0..ProzesuMax
+
+
+P = (sartu[x:KR]->atera[x]->P)\{sartu[KopuruMax],atera[KopuruMax]}.
+
+
+//s zein posiziotan sartu behar den.
+LIFO= LIFO[0],
+LIFO[s:KR] =(		when(s<KopuruMax)		p[PR].sartu[(s)]			->	 LIFO[(s+1)]
+					| 					p[PR].atera[s-1]		->	 LIFO[(s-1)]
+						)\{p[PR].atera[-1]}.
+
+||LIFOAK= (p[PR]:P || LIFO).
+

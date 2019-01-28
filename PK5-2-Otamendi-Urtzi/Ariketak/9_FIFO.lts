@@ -1,0 +1,30 @@
+//Urtzi Otamendi Etxabe
+//2017/11/16
+
+
+//Kabitzen diren prozesu kop maximoa
+const KopuruMax = 5
+range KR = 0..KopuruMax
+
+//-1 errorea ekiditeko
+range PKR= 0..(KopuruMax-1)
+
+//Prozesu kopurua
+const ProzesuMax = 3
+range PR = 0..(ProzesuMax)
+
+
+P = (sartu[x:PKR]->atera[x]->P).
+
+
+// s zein posiziotan sartu behar den
+// a zein posiziotik atera
+// k prozesuak martxan
+
+FIFO= FIFO[0][0][0],
+FIFO[s:PKR][a:PKR][k:KR] =(when(k<KopuruMax)	p[PR].sartu[s]		->		print[s]	->	 FIFO[(s+1)%KopuruMax][a][k+1]
+						|	p[PR].atera[a]		->		print[a]	->	 FIFO[s][(a+1)%KopuruMax][k-1]
+						).
+
+||FIFOAK= (p[PR]:P || FIFO).
+

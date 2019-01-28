@@ -1,0 +1,38 @@
+//Urtzi Otamendi Etxabe
+//2017/12/27
+
+//Kabitzen diren zenbaki kopurua
+const Max = 10
+range AR = 0..Max
+
+//Prozesu kop maximoa
+const LangileMax = 3
+range LR = 0..LangileMax
+
+range PR = 0..(LangileMax-1)
+
+range Bool=0..1
+//Prozesuen ekintza
+
+
+//FPS-n ezin da konparaketa bat egin aldagai bateko balioarekin, beraz, komparaketa ekintzak
+//maximoa eta hartutakoa konparatuko ditu, eta gordek, balioa berriz array-an sartuko du
+//eta maximoa baino handiagoa izatearen kasuan, maximoan ere.
+
+P = (hartu->komparaketa-> gorde ->P).
+
+
+//i Zenbaki kopurua
+//k zenbat langile lanean
+//m Maximoa libre dagoen ala  ez
+AGENDA= AGENDA[Max][0][0],
+AGENDA[i:AR][k:LR][m:Bool] =	(when(i>1)	i[PR].hartu	->	print[i-1]-> AGENDA[i-1][k+1][0]
+								|when(m==0) i[PR].komparaketa -> AGENDA [i][k][1]
+								|when(k>0)  i[PR].gorde	->	if(k==1 && i==0) then (bukatu -> STOP)
+																	else AGENDA[i][k-1][0]
+						).
+
+
+
+||AGENDAMAX= (i[PR]:P || AGENDA). 
+

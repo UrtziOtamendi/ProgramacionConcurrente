@@ -1,0 +1,54 @@
+//Urtzi Otamendi Etxabe
+//2017/12/28
+
+const PK = 3 // Puska kopuru maximoa
+range PR = 0..PK // Lapikoan  egon daitekeen puska kopuruaren rangoa
+
+const HK=5
+range HR=0..HK  // Hozkailiuan egon daitekeen puska kopuruaren rangoa
+
+range SPR = 1..PK // Sukaldariak bota dezakeen puska kopuruaren rangoa
+const BK = 2 // Basati kopurua
+range BR = 1..BK // Basatien rangoa
+range Egoera=0..1
+
+BASATIA =  ( begiratu[k:PR] ->
+							 if (k>0) then ( random[r:1..k]-> hartu[r] -> askatu -> jan -> lo ->BASATIA )
+										else 									(askatu -> BASATIA)).
+
+
+SUKALDARIA = (hil -> begiratuHozk[h:HR] -> zatitu[z:0..HK-h] -> gorde[z] -> askatuHozk -> begiratuLap[k:PR] ->
+																										 if (k<PK) then ( begiratuHozkHartu[kh:HR] -> if (kh>0) then if ((PK-k)<kh) then (hartu[r:1..PK-k]-> bota[r] -> askatu ->SUKALDARIA )
+																																												else (hartu[r:1..kh]-> bota[r] -> askatu ->SUKALDARIA )
+																																								else								(askatu-> SUKALDARIA))
+																							 						else 																(askatu -> SUKALDARIA)).
+
+//Misiolaria utziko du
+TXALUPA = (iritsi-> utzi -> joan -> TXALUPA).
+
+//m : misiolaria iritsi den.
+//h : hozkailuko kopurua
+//egH:  hozkailuaren egoera; libre edo okupatua
+//l : 	lapikoko kopurua
+//egL:   lapikoaren egoera; libre edo okupatua
+LAPIKOA = LAPIKOA[0][0][0][0][0],
+
+LAPIKOA [m:Egoera][h:HR][egH:Egoera][l:PR][egL:Egoera] = (					
+																			
+												when (m==0)				t.utzi					->  LAPIKOA[1][h][egH][l][egL]
+												|when (m==1)				s.hil					->  LAPIKOA[0][h][egH][l][egL]
+												|when (egH==0)				s.begiratuHozk[h]		->	LAPIKOA[m][h][1][l][egL]
+												|							s.zatitu[z:0..HK-h]		->  LAPIKOA[m][h][egH][l][egL]
+												|when (h<=HK && egH==1)		s.gorde[z:0..HK-h]		-> 	LAPIKOA[m][h+z][egH][l][egL]
+												|when (egH==1)				s.askatuHozk			->  LAPIKOA[m][h][0][l][egL]
+												|when (egL==0)	 			s.begiratuLap[l]   		-> 	LAPIKOA[m][h][egH][l][1]
+												|when (egH==0)				s.begiratuHozkHartu[h]	->	LAPIKOA[m][h][1][l][egL]
+												|when (h>0 && egH==1 && l<PK ) 		s.hartu[r:1..PK-l]		->	LAPIKOA[m][h-r][egH][l][egL]
+												|when (l<PK && egL==1) 		s.bota[r:1..PK-l] 		-> 	LAPIKOA[m][h][egH][l+r][egL]
+												|when ((egH==1 && egL==1) ||(egL==1 && l==PK) )    s.askatu				->	LAPIKOA[m][h][0][l][0]
+												| when (l>0 && egL==1) 		b[BR].hartu[b:1..l] 	-> 	LAPIKOA[m][h][egH][l-b][egL]
+												| when (egL==0) 			b[BR].begiratu[l]   	-> 	LAPIKOA[m][h][egH][l][1]
+												| when (egL==1)				b[BR].askatu			->	LAPIKOA[m][h][egH][l][0]
+												).
+
+||JANARIA = ( b[BR]:BASATIA || s:SUKALDARIA || t:TXALUPA || LAPIKOA ).

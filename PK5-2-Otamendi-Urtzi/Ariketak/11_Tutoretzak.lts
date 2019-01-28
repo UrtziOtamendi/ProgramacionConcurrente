@@ -1,0 +1,41 @@
+//Urtzi Otamendi Etxabe
+//2017/11/16
+
+//Gelan zenbat ikasle kabitzen diren
+const KopuruMax = 2
+range KR = 0..KopuruMax
+
+
+//Ikasle Kopurua
+const IkasleKop = 4
+range IR = 0..IkasleKop
+
+
+
+const True=1
+const False=0
+range Bool=False..True
+
+IKASLEA = (heldu -> sartu->galdetu->entzun->atera->IKASLEA).
+IRAKASLEA= (entzun-> pentsatu->erantzun->IRAKASLEA).
+
+//ik ikasle kopurua
+//ig  ikasleak galdera egin du
+//irp irakaslea galdera pentsatzen.
+//ike ikasleari erantzuna esanda.
+
+BULEGOA= BULEGOA[0][False][False][False],
+BULEGOA[ik:KR][ig:Bool][irp:Bool][ire:Bool] =(						   	 	ik[IR].heldu    -> 	BULEGOA[ik][ig][irp][ire]
+									| when(ik<KopuruMax)	  				ik[IR].sartu	->	 BULEGOA[ik+1][ig][irp][ire]
+									| when(ig != True && ire!=True)			ik[IR].galdetu  ->	 BULEGOA[ik][True][irp][ire]
+									| when(ig == True)						ir.entzun    	->	 BULEGOA[ik][ig][True][ire]
+									| when(irp==True)						ir.erantzun	 	->     BULEGOA[ik][False][False][True]
+									| when(ire==True)						ik[IR].entzun   ->     BULEGOA[ik][ig][irp][False]				
+									| 										ik[IR].atera   ->     BULEGOA[ik-1][ig][irp][ire]
+
+									 
+						).
+
+
+||TUTORETZAK= (ik[IR]:IKASLEA || ir:IRAKASLEA|| BULEGOA).
+

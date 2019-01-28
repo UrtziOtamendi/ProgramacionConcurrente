@@ -1,0 +1,26 @@
+//Urtzi Otamendi Etxabe
+//2017/11/16
+
+//Kabitzen diren zenbaki kopurua
+const Max = 10
+range AR = 0..Max
+
+//Prozesu kop maximoa
+const LangileMax = 3
+range LR = 0..LangileMax
+range LkR= 0..(LangileMax+1)
+//Prozesuen ekintza
+P = (hartu->komparaketa->sartu->P).
+
+
+//i Zenbaki kopurua
+//k zenbat langile lanean
+AGENDA= AGENDA[Max][0],
+AGENDA[i:AR][k:LkR] =	(when(i>1)	i[LR].hartu	->	print[i-1][i-2] -> AGENDA[i-2][k+1]
+						|when(k>0)  i[LR].sartu	->	print[i]	->
+																	if(k==1 && i==0) then (bukatu -> STOP)
+																					else AGENDA[i+1][k-1]
+						).
+
+||AGENDAMAX= (i[LR]:P || AGENDA). 
+

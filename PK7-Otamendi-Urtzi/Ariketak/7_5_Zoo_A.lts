@@ -1,0 +1,47 @@
+
+// Urtzi Otamendi Etxabe
+// 2017/12/28
+
+//Elkar blokeaketa dago
+//Trace to DEADLOCK:
+//	l.0.sartu
+//	l.1.sartu
+//	l.2.sartu
+//	l.3.sartu
+//	l.4.sartu
+
+//Hau ez gertatzeko, lehoiek, sartu baino lehen beraientzat zatirik geratzen den begiratu beharko dute.
+
+const Max=10  // zati kop
+range PR=0..Max //zati rangoa
+
+const LKop=5 // Lehoi kop
+range LR=0..LKop
+range LzR=0..(LKop-1)
+
+const True=1
+const False=0
+range Bool=False..True //Bool 
+
+
+LEHOIA = ( sartu-> jan -> irten -> LEHOIA).
+ZAINDARIA  =( sartu -> bete -> irten -> ZAINDARIA).
+
+
+
+//p: zati kopurua
+//a: atearen egoera False=Irekita
+//k: lehoi kop
+JANGELA = JANGELA[0][0][False],
+JANGELA[p:PR][k:LR][a:Bool]= (when (a==False)		l[LzR].sartu	-> JANGELA[p][k+1][a]
+							 |when (p>0)			l[LzR].jan	-> JANGELA[p-1][k][a]
+							 |						l[LzR].irten	-> JANGELA[p][k-1][a]
+							 |when (k==0 && p==0)	z.sartu		-> JANGELA[p][k][True]	
+							 |						z.bete		-> JANGELA[Max][k][a]
+							 |						z.irten		-> JANGELA[p][k][False]
+							 ).
+					
+
+
+||ZOO = (l[LzR]:LEHOIA||z:ZAINDARIA||JANGELA)  .
+

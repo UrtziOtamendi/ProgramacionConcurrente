@@ -1,0 +1,34 @@
+
+
+//Urtzi Otamendi Etxabe
+//2017/11/30
+
+
+const O= 5 // oilo kop maxim
+range ON=0..O // Oilo zenbaki rangoa
+range OR=0..(O+1) //oilo rangoa
+const True=1
+const False=0
+range J0=False..True //Josemi oilotegian
+const A=6 //arrautza kop maxim
+range AR=0..A // arrautza rangoa
+
+OILOA = (sartu->utzi->irten->OILOA).
+
+JOSEMI = (sartu-> hartu ->irten->JOSEMI).
+
+//o: oilo kop 
+//a:  arrautza kop
+//j: josemi oilotegian?
+
+OILOTEGI = OILOTEGI[0][0][False], 
+OILOTEGI[o:OR][a:AR][j:J0] = 			( when (j == False ) 		oilo[ON].sartu 					->	OILOTEGI[o+1][a][j]
+										| when (a<A)				oilo[ON].utzi	->	print[a+1]	->  OILOTEGI[o][a+1][j]
+										| 							oilo[ON].irten 					->  OILOTEGI[o-1][a][j]
+										| when (o == 0 ) 			josemi.sartu 					->  OILOTEGI[o][a][True]
+										| when (a>1)				josemi.hartu	->	print[a]	->  OILOTEGI[o][a-2][j]
+										| 							josemi.irten 					->  OILOTEGI[o][a][False]
+										).
+
+
+||SISTEMA = (oilo[ON]:OILOA||josemi:JOSEMI||OILOTEGI).

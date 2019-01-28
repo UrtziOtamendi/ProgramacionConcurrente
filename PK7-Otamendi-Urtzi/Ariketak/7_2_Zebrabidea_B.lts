@@ -1,0 +1,65 @@
+
+
+//Urtzi Otamendi Etxabe
+//2017/11/30
+
+
+//Elkar blokeaketa
+
+
+//Trace to terminal set of states:
+//	oinezkoa.1.iritsi
+//	oinezkoa.2.iritsi
+//	oinezkoa.3.iritsi
+//	kotxea.1.iritsi
+//	kotxea.2.iritsi
+//	kotxea.3.iritsi
+
+// Arazo hori konpontzeko, hau gehitu da kotxeen sarrerako baldintza moduan: (op==0 && (oz==0 || kz>=M)). Honek esan nahi du
+// Kotxeak zebrabidean sartzeko, zain dauden oinezkoen kopuruak 0 izan beharko dutela edo zain dauden kotxe kopuruak
+// maximoa gainditu.
+
+
+
+
+const True = 1
+const False = 0
+range B = False..True
+
+const N = 5 // kotxe/oinezko kopurua
+const M= 3 // zain maximoa
+range T = 0..N // kotxe kontagailua
+range IDK = 1..N
+range IDP = 1..N
+
+P = (iritsi->sartu->irten->P).
+
+//op oinezko kopurua pasatzen
+//kp kotxe kopurua
+//oz oinezkoak zain
+//kz kotxeak zain
+
+ZEBRABIDEA = ZEBRABIDEA[0][0][0][0],
+ZEBRABIDEA[kp:T][op:T][kz:T][oz:T] =
+									( 							   oinezkoa[IDP].iritsi      -> 	ZEBRABIDEA[kp][op][kz][oz+1]
+									|when (kp==0 && kz<M) 	  	 oinezkoa[IDP].sartu 	  -> 	ZEBRABIDEA[kp][op+1][kz][oz-1]
+									|								oinezkoa[IDP].irten 	  -> 	ZEBRABIDEA[kp][op-1][kz][oz]
+									|			  				  kotxea[IDK].iritsi        ->	 ZEBRABIDEA[kp][op][kz+1][oz]
+									|when (op==0 && (oz==0 || kz>=M)) kotxea[IDK].sartu		 ->	 ZEBRABIDEA[kp+1][op][kz-1][oz]
+									|		   					 kotxea[IDK].irten 	    -> 	ZEBRABIDEA[kp-1][op][kz][oz]
+									).
+
+
+
+
+||BIDEA= (oinezkoa[IDP]:P || kotxea[IDK]:P || ZEBRABIDEA).
+
+
+// Bizitasun Propiertatearen hausnarketa
+
+//Bidean behin eta berriz kotxeak sartzen jarriz gero, oinezkoak gosez hilko lirateke.
+// Izan ere, 3 kotxe baino gehiahgo badaude zain, beti kotxeek izango dute lehentasuna.
+// Hauek behin eta berriz sartzen heltzen badira, ezingo dute oinezkoek sartu.
+
+
+||BIDEA_DESEGOKIA= (BIDEA) << {kotxea[IDK].iritsi , kotxea[IDK].sartu} .

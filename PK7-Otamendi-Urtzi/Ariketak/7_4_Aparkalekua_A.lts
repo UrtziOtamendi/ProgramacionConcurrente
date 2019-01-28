@@ -1,0 +1,58 @@
+
+// Urtzi Otamendi Etxabe
+// 2017/11/18
+
+// Segurtasun propietatea
+
+//Arazoaren soluzioa den FSP honetan, ez da inongo elkarblokeaketarik sortzen
+//Beraz esan dezakegu segurtasun propietatea bermatua geratzen dela.
+//Check safety herramintak ez baidu arazorik dagoela adierazten.
+
+const Max=4  // plaza kop
+range PR=0..Max //plaza rangoa
+
+const PMax= 2 // pasabide max
+range PasR=0..PMax //pasabide rangoa
+
+
+const KMax=3// Kotxe kopurua
+range KR=0..KMax // Kotxe rangoa
+
+const MMax=3 // Moto kopurua
+range MR=0..MMax // Moto rangoa
+
+const True=1
+const False=0
+range Bool=False..True //Bool 
+
+
+KOTXE = (iritsi -> sartu -> bilatu -> aparkatu -> mugitu -> atera-> joan -> KOTXE).
+MOTO  =(iritsi -> sartu -> bilatu -> aparkatu -> mugitu -> atera-> joan -> MOTO).
+
+
+
+//p: plaza libre
+//pa: pasabidea lekua
+//
+
+APARKALEKU = APARKALEKU[Max][PMax],
+APARKALEKU[p:PR][pa:PasR]=( 															kotxe[KR].iritsi -> APARKALEKU[p][pa]
+										|												moto[MR].iritsi  -> APARKALEKU[p][pa]
+										| when (pa==PMax)								kotxe[KR].sartu  -> APARKALEKU[p][0]
+										| when (pa>0)									moto[MR].sartu	 ->	APARKALEKU[p][pa-1]
+										| 												kotxe[KR].bilatu -> 	APARKALEKU[p][PMax]		
+										| 												moto[KR].bilatu -> 	APARKALEKU[p][pa+1]
+										| when (p>2)									kotxe[KR].aparkatu -> 	APARKALEKU[p-3][pa]		
+										| when (p>0)									moto[KR].aparkatu -> 	APARKALEKU[p-1][pa]
+										| 												kotxe[KR].mugitu -> 	APARKALEKU[p+3][pa]		
+										| 												moto[KR].mugitu -> 	APARKALEKU[p+1][pa]	
+										| when (pa==PMax)								kotxe[KR].atera  -> APARKALEKU[p][0]
+										| when (pa>0)									moto[MR].atera	 ->	APARKALEKU[p][pa-1]
+										| 												kotxe[KR].joan -> 	APARKALEKU[p][PMax]		
+										| 												moto[KR].joan -> 	APARKALEKU[p][pa+1]).
+					
+
+
+||SISTEMA = (kotxe[KR]:KOTXE||moto[MR]:MOTO||APARKALEKU)  .
+
+

@@ -1,0 +1,89 @@
+
+// Urtzi Otamendi Etxabe
+// 2017/12/28
+
+//segurtasun eta bizitasun propietateak
+// Aurreko planteamenduan ez da segurtasun propietaterik bortxatzen.
+// Baina, ibilgailu mota baten sarrerari preferentzia ematen badiogu
+// bizitasun propietatea ez genuke bermatuko. Adibidez, etengabe kotxeak 
+// sartzen ari badira, ezinezkoa izango dute motoek aparkatzea.
+// Horretarako kontagailu bat ezarriko da, mota bereko 4 ibilgailu jarraian sartuz gero
+// Txanda aldaketa bat egingo da. Baina, naiz eta motoen txanda izan, kotxeren batek sartzeko aukera badu sartu ahal izango da. Kontagailutik bat kenduz
+// Adbibidea
+// Txanda : Moto
+// Kont : 3
+// Kotxea sarten bada, kontagailua 2-ra jaitsi.
+
+// Txanda : Kotxea
+// Kont : 3
+// Motoa sarten bada, kontagailua 2-ra jaitsi.
+
+// Txanda : Moto
+// Kont : 4
+// Kotxea sarten bada, kontagailua 0-ra jaitsi txanda aldatu, maximoan zegoelako kont.
+
+// Txanda : Kotxe
+// Kont : 4
+// Motoa sarten bada, kontagailua 0-ra jaitsi txanda aldatu, maximoan zegoelako kont.
+
+
+
+
+const Max=4  // plaza kop
+range PR=0..Max //plaza rangoa
+
+const PMax= 2 // pasabide max
+range PasR=0..PMax //pasabide rangoa
+
+
+const KMax=2// Kotxe kopurua
+range KR=0..KMax // Kotxe rangoa
+
+const MMax=2 // Moto kopurua
+range MR=0..MMax // Moto rangoa
+
+const SMax=4 //Sarrera Max
+range SR=0..SMax
+
+const K=1
+const M=0
+range Mota=M..K //Txanda mota
+
+
+const True=1
+const False=0
+range Bool=False..True //Bool 
+
+
+KOTXE = (iritsi -> sartu -> bilatu -> aparkatu -> mugitu -> atera-> joan -> KOTXE).
+MOTO  =(iritsi -> sartu -> bilatu -> aparkatu -> mugitu -> atera-> joan -> MOTO).
+
+
+
+//p: plaza libre
+//pa: pasabidea lekua
+//kont: kontagailua
+//t : txanda norena
+
+APARKALEKU = APARKALEKU[Max][PMax][0][K],
+APARKALEKU[p:PR][pa:PasR][kont:SR][t:Mota]=( 																kotxe[KR].iritsi -> APARKALEKU[p][pa][kont][t]
+											|																moto[MR].iritsi  -> APARKALEKU[p][pa][kont][t]
+											| when (pa==PMax && ((t==K && kont<SMax) || (t==M && kont>0)))	kotxe[KR].sartu  -> if(t==K) then APARKALEKU[p][0][kont+1][t] else if (kont==SMax) then APARKALEKU[p][0][0][K] else APARKALEKU[p][0][kont-1][t]
+											| when (pa>0 && ((t==M && kont<SMax) || (t==K && kont>0)))			moto[MR].sartu	 ->	if(t==M) then APARKALEKU[p][pa-1][kont+1][t] else if (kont==SMax) then APARKALEKU[p][pa-1][0][M] else APARKALEKU[p][pa-1][kont-1][t]
+											| 												kotxe[KR].bilatu -> 	APARKALEKU[p][PMax][kont][t]	
+											| 												moto[KR].bilatu -> 	APARKALEKU[p][pa+1][kont][t]
+											| when (p>2)									kotxe[KR].aparkatu -> 	APARKALEKU[p-3][pa][kont][t]	
+											| when (p>0)									moto[KR].aparkatu -> 	APARKALEKU[p-1][pa][kont][t]
+											| 												kotxe[KR].mugitu -> 	APARKALEKU[p+3][pa][kont][t]
+											| 												moto[KR].mugitu -> 	APARKALEKU[p+1][pa][kont][t]
+											| when (pa==PMax)								kotxe[KR].atera  -> APARKALEKU[p][0][kont][t]
+											| when (pa>0)									moto[MR].atera	 ->	APARKALEKU[p][pa-1][kont][t]
+											| 												kotxe[KR].joan -> 	APARKALEKU[p][PMax][kont][t]		
+											| 												moto[KR].joan -> 	APARKALEKU[p][pa+1][kont][t]
+											).
+					
+
+
+||SISTEMA = (kotxe[KR]:KOTXE||moto[MR]:MOTO||APARKALEKU)  .
+
+||SISTEMAKOTXE = (SISTEMA) >> {kotxe[KR].iritsi,kotxe[KR].sartu}.

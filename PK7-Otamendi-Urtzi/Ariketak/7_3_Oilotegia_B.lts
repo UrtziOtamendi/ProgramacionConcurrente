@@ -1,0 +1,56 @@
+
+// Urtzi Otamendi Etxabe
+// 2017/11/18
+
+
+//Josemiren oiloek oilategian jartzen dituzte arraultzak, baina bertara Josemi barruan ez dagoenean soilik sartzen dira.
+// Josemi oilategian sartzen da oilorik ez badago, bi arraultz hartzen ditu eta ondoren atera egiten da.
+// Oilategian arrautza kopurua eta aurrautza jartzeko zain dauden oiloen kopuruak arrautza kopuru maximoa gahinditzen badute ezin izango dute sartu.
+// Josemik oilotegian zer dagoen begiratuko du. Oilategian 2 arrautza baino gutxiago badaude josemi ez da sartuko.
+
+//Elkarblokeaketa eta bizitasun propietatea hausnarketa
+
+//Aurreko bertsioan Josemi oilotegian sartzen zen, eta bertan arrautzik ez bazegoen bertan geratzen zen, blokeaketa bat sortuz.
+//Horretarako, begiratu ekintza gehitu zaio. Bertan josemik, arrautza kopurua begiratzen du. Hau, 1 baino handiagoa bada, barrura sartu eta bi hartuko ditu.
+//Gainera, Josemi oilotegian dagoen jakiteko, parametro bat ezarri da, modu horretan oiloak ez dira barrura berekin sartuko.
+//Oiloekin berdina egin da, hauek ere, barrura sartzeko aukera, soilik arrautza kopurua eta jartzeko zain daudenen baturak maximoa pasatzen ez dutenean izango dute.
+//Bizitasun propietatearen bortxaketarik ez dago, inongo prozesuak ez baidu izango aukera behin eta berriz bere ekintza egiteko.
+
+const O= 6 // oilo kop maxim
+range OR=0..(O) //oilo rangoa
+
+const OM=6 // Oilo kopurua
+range ON=0..OM // Oilo zenbaki rangoa
+
+const True=1
+const False=0
+range J0=False..True //Josemi oilotegian
+const A=4//arrautza kop maxim
+range AR=0..A // arrautza rangoa
+
+
+
+OILOA = (sartu->utzi->irten->OILOA).
+
+JOSEMI = (begiratu[a:AR] -> if(a>1) then ( sartu-> hartu->irten->JOSEMI) else (  joan->JOSEMI) ).
+
+//o: oilo kop 
+//a:  arrautza kop
+//j: josemi oilotegian?
+//az: Arrautza jartzeko zain
+
+OILOTEGI = OILOTEGI[0][0][0][False], 
+OILOTEGI[o:OR][a:AR][az:OR][j:J0] =     ( when (j == False && o<O && (a+az)<A) 			oilo[ON].sartu 						->	OILOTEGI[o+1][a][az+1][j]
+										| when (az>0 && a<A)							oilo[ON].utzi		->	print[a+1]	->  OILOTEGI[o][a+1][az-1][j]					
+										| when (o > 0 )									oilo[ON].irten 						->  OILOTEGI[o-1][a][az][j]
+										|												josemi.begiratu[a]     				->  OILOTEGI[o][a][az][j]
+										|												josemi.joan							->  OILOTEGI[o][a][az][j]
+										| when (o == 0 ) 							josemi.sartu 						->  OILOTEGI[o][a][az][True]
+										| when (j == True && a>1) 						josemi.hartu		->	print[a-2]	->  OILOTEGI[o][a-2][az][j]
+										| when (j == True ) 						josemi.irten 						->  OILOTEGI[o][a][az][False]
+										).
+
+
+||SISTEMA = (oilo[ON]:OILOA||josemi:JOSEMI||OILOTEGI)  .
+
+

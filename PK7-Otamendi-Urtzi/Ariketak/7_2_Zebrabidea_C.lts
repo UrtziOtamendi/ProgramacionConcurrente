@@ -1,0 +1,75 @@
+
+
+
+
+//Urtzi Otamendi Etxabe
+//2017/11/30
+
+
+const True = 1
+const False = 0
+range B = False..True
+
+//Bizitasun propietatea konpontzen
+
+//Cycle in terminal set:
+//	kotxea.1.irten
+//	kotxea.1.iritsi
+//	kotxea.1.sartu
+
+//Txanda aldaketa bat egingo da, modu honetan, ez dira kotxeak behin eta berriz sartzen arituko.
+//Kontagailu bat jarri da, mota bakoitzekeko prozesuak, gehienez 5 aldiz sartu ahal izango du.
+//Txanda, kontagailua betetzean aldatuko da. 
+//Baina kasu batzuetan txanda saltatzeko aukera egongo da.
+//Oinezkoen txanda bada, baina kotxe pilaketa badago, hauek pasatzeko aukera izango dute pilaketa joan arte.
+
+
+
+const N = 5 // kotxe kopurua
+const M= 3 //zain maximoa
+range T = 0..N // kotxe kontagailua
+range IDK = 1..N
+range IDP = 1..N
+
+
+
+const Oinezko= 0
+const Kotxe = 1
+range TR = Oinezko..Kotxe //Txanda rangoa
+const KontMax=5
+range KR=0..KontMax
+KOTXEA = (iritsi->sartu->irten->KOTXEA).
+OINEZKOA = (iritsi->sartu->irten->OINEZKOA).
+
+
+//op oinezko kopurua pasatzen
+//kp kotxe kopurua
+//oz oinezkoak zain
+//kz kotxeak zain
+//t txanda, oinezkoa edo kotxea.
+//kont kontagailua.
+ZEBRABIDEA = ZEBRABIDEA[0][0][0][0][Oinezko][0],
+ZEBRABIDEA[kp:T][op:T][kz:T][oz:T][t:TR][kont:KR] =
+									( 							   															    oinezkoa[IDP].iritsi      -> 	ZEBRABIDEA[kp][op][kz][oz+1][t][kont]
+									|when (kp==0 && ((t==Oinezko && kz<M && kont<KontMax ) ||(kont==KontMax && t==Kotxe) )) 	oinezkoa[IDP].sartu 	  -> 	if ( t==Oinezko ) then ZEBRABIDEA[kp][op+1][kz][oz-1][t][kont+1]
+																																													else ZEBRABIDEA[kp][op+1][kz][oz-1][Kotxe][0]
+
+									|																							oinezkoa[IDP].irten 	  -> 	ZEBRABIDEA[kp][op-1][kz][oz][t][kont]
+									|			  				  																kotxea[IDK].iritsi        ->	ZEBRABIDEA[kp][op][kz+1][oz][t][kont]
+									|when (op==0 &&  ((kont<KontMax && t==Kotxe) || (t==Oinezko && (oz==0 || kont==KontMax || kz>=M)))) 	kotxea[IDK].sartu		  ->	 if((kont<KontMax && t==Kotxe)) then  ZEBRABIDEA[kp+1][op][kz-1][oz][t][kont+1]
+																																				 								else  ZEBRABIDEA[kp+1][op][kz-1][oz][Oinezko][0]
+									|		   						 															kotxea[IDK].irten 	      -> 	ZEBRABIDEA[kp-1][op][kz][oz][t][kont]
+									).
+
+
+||BIDEA= (oinezkoa[IDP]:OINEZKOA || kotxea[IDK]:KOTXEA || ZEBRABIDEA).
+
+
+
+
+||BIDEABETETA = (BIDEA) >>{oinezkoa[IDP].sartu,oinezkoa[IDP].iritsi }.
+
+
+
+
+

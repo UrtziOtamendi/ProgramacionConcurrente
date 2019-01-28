@@ -1,0 +1,48 @@
+
+//Urtzi Otamendi Etxabe
+//2017/11/30
+
+//Trace to terminal set of states:
+//	p.8.sartu.0
+//	p.7.sartu.1
+//	p.6.sartu.2
+//	p.5.sartu.3
+//	p.4.sartu.4
+//	p.3.sartu.5
+//Cycle in terminal set:
+
+
+//Arazoa konpontzeko kontagailu bat ezarri da. Sarrera bakoitzeko, kontagailuari bat kenduko zaio. Kontagailua 0-ra iristen denean, ezin izango da prozesurik sartu denak atera arte.
+//Azken prozesua (s=0) LIFOtik ateratzean, kontagailua beti hasieratik hasiko da.
+
+
+const KopuruMax = 5 //Kabitzen diren prozesu max
+range KR = 0..KopuruMax
+range KpR = 0..(KopuruMax-1)
+
+const SartuMax = 10 // Sarrera kopuru maximoa denak atera arte 
+range SR = 0..SartuMax
+
+
+const ProzesuMax = 8 // Prozesu kopurua
+range PR = 0..ProzesuMax
+
+
+
+P = (sartu[x:KpR]->atera[x]->P).
+
+
+// s: non sartu behar den
+// k: kontagailua, sarrera kopuruena. Denak ateratzean berriz hasiko dena.
+LIFO= LIFO[0][SartuMax],
+LIFO[s:KR][k:SR] =(		when(s<KopuruMax && k>0)		p[PR].sartu[s]		->	  LIFO[(s+1)][k-1]
+						|when(s>0 )  					p[PR].atera[s-1]	->	 if( s == 1) then LIFO[(s-1)][SartuMax] else LIFO[(s-1)][k] 
+						).
+
+||LIFOAK= (p[PR]:P || LIFO).
+
+||LIFOAK_SARTU = LIFOAK >> {p[PR].atera}.
+
+
+
+

@@ -1,0 +1,18 @@
+
+const GUTXI = 2
+const ASKO = 8
+
+const N = 9
+range R = 0..N
+
+ 
+URTEGI = URTEGI[5], 
+URTEGI[i:R] = ( when (i<9) gehi -> if (i+1>ASKO) 
+									then (asko[i+1] -> URTEGI[i+1]) 
+									else if (i+1<GUTXI) 
+										then (gutxi[i+1] -> URTEGI[i+1]) 
+										else (ongi[i+1] -> URTEGI[i+1])
+
+				| when (i>0) ken -> if (i-1<GUTXI) 
+									then (gutxi[i-1] -> URTEGI[i-1]) 	
+									else (ongi[i-1] -> URTEGI[i-1]) ).

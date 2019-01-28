@@ -1,0 +1,4 @@
+const N = 6 
+range R = 1..N
+IGOGAILUA = IGOGAILUA[1],
+IGOGAILUA[i:R] = ( when (i<N) gora -> non[i+1] -> IGOGAILUA[i+1] | when (i>1) behera -> non[i-1] -> IGOGAILUA[i-1] ).

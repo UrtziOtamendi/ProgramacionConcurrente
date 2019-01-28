@@ -1,0 +1,18 @@
+range Bool = 0..3
+
+range Egile=0..2
+ERAB = (eskuratu->erabili->askatu->ERAB).
+
+
+BALIAB = BALIAB[0][0] ,
+BALIAB[i:Bool][e:Egile] = (	when (i==0 && e==0 ) 		x.egin  -> BALIAB[1][1]
+					| when (i==0  && e==0)	 		y.egin -> BALIAB[1][2]
+					| when (i==1 && e==1) 		y.egin  -> BALIAB[2][0]
+					| when (i==1 && e==2) 		x.egin -> BALIAB[2][0]
+					| when (i==2 ) 				{a,b}.eskuratu -> BALIAB[3][0]
+					| when (i==3 ) 				{a,b}.askatu -> BALIAB[0][0] ).
+
+
+
+||ERAB_BALIAB = ({a,b}:ERAB || BALIAB ).
+

@@ -1,0 +1,2 @@
+SAKATU = (sakatu -> [0] -> SAKATU
+		 | sakatu -> [1] -> SAKATU).

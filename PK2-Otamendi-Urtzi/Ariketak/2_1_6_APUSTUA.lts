@@ -1,0 +1,4 @@
+APUSTUA= ( hiru -> HIRU | bi -> BI | bat -> BAT),
+HIRU= (galdu -> APUSTUA),
+BI= (irabazi -> APUSTUA),
+BAT= (irabazi -> APUSTUA).

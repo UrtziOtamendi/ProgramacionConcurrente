@@ -1,0 +1,7 @@
+
+const N=3
+range T = 1..N
+range R= 1..2*N
+
+BIKOITZA = (in[a:T]->EMAITZA[a*2]),
+EMAITZA[s:R] = (out[s]->BIKOITZA).

@@ -1,0 +1,1 @@
+MUGITU = (aurrera -> (eskubira -> MUGITU | ekzerrera -> STOP)).

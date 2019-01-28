@@ -1,0 +1,13 @@
+
+const Lata=15
+const Max=31
+range R=0..Max
+
+
+//x barruan dagoen diru kopurua
+Makina = Makina[0],
+Makina[x:R] =(	when (x>=Lata) 	  lata -> bueltak[x-Lata] -> Makina[0]
+			  |	when (x<Lata)     [5]					  -> Makina[x+5] 
+ 			  |	when (x<Lata)     [10]				      -> Makina[x+10] 
+ 			  |	when (x<Lata)     [20]				      -> Makina[x+20] 
+				).

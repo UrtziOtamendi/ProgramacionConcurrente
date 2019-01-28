@@ -1,0 +1,6 @@
+
+const N=3
+range R = 0..N
+
+MAX = (in[a:R][b:R] -> MAX[a][b]),
+MAX[a:R][b:R]= if( a > b) then ( max[a] -> MAX)  else ( max[b] -> MAX) .

@@ -1,0 +1,3 @@
+PERTSONA = ( asteguna -> ASTEGUNA | asteburua ->ASTEBURUA),
+ASTEGUNA= (egon -> lanegin-> PERTSONA),
+ASTEBURUA= (egon -> {erosi , jolastu } -> PERTSONA).

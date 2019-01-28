@@ -1,0 +1,10 @@
+const N = 2
+range R = 0..N
+
+
+
+	MAILA= (idatzi[x:R] -> MAILA[x]),
+	MAILA[x:R] = (       irakurri[x] -> MAILA[x]
+				|      idatzi[n:R] -> MAILA[n]
+				).		
+			

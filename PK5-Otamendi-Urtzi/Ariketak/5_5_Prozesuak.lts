@@ -1,0 +1,29 @@
+//Urtzi Otamendi Etxabe
+//2017/12/07
+
+
+
+const PK=3 // Prozesu kop
+range PR=0..(PK-1)// Prozesuak
+range PrE=0..PK // Prozesu rangoa ekintzetan
+
+const True=1
+const False=0
+range Bool= False..True
+
+
+PROZESU = ( iritsi -> egin -> irten -> PROZESU ).
+
+//iri: iritsi ekintza egin dutenen prozesu kop
+//eg: egin ekintza egin dutenen prozesu kop
+//irt: irten ekintza egin dutenen prozesu kop
+EKINTZA = EKINTZA[0][0][0],
+
+EKINTZA [iri:PrE][eg:PrE][irt:PrE]= 	(	when (eg==0 && irt==0)	 		p[PR].iritsi	-> 	EKINTZA[iri+1][eg][irt]
+									| 	when (iri==PK && irt==0) 		p[PR].egin		-> 	EKINTZA[iri][eg+1][irt]
+									|	when (eg==PK && iri==PK) 		p[PR].irten		-> 	if((irt+1)==PK) then EKINTZA[0][0][0]
+																											else EKINTZA[iri][eg][irt+1]				
+									).
+
+
+||PROZESUAK = (p[PR]:PROZESU || EKINTZA).

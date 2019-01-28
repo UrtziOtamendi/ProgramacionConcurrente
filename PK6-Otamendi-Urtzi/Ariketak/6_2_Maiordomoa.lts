@@ -1,0 +1,32 @@
+
+//URTZI OTAMENDI ETXABE
+//2017/11/18
+
+
+
+range Bool=0..1
+const Max= 5
+range MR=0..Max-1
+
+
+FIL = (eseri->eskubi.get->ezker.get
+		->jan->eskubi.put->ezker.put
+		->altxatu->FIL).
+
+//h sardeska libre dagoen
+SARD = SARD[0],
+SARD[h:Bool] = (when (h==0) 	  get	->	SARD[1]
+				| 				put	->	SARD[0]).
+
+// n zenbat exerita dauden jakiteko
+MAIOR = MAIOR[0],
+MAIOR[n:MR] = ( when(n<Max-1)	eseri 	 -> 	MAIOR[n+1]
+				|				altxatu	->	 MAIOR[n-1]
+				).
+
+
+||AFARIA(N=5)= (forall [i:0..N-1]
+		(fil[i]:FIL ||
+		{fil[i].ezker,fil[((i-1)+N)%N].eskubi}::SARD
+		) ||fil[0..N-1]::MAIOR
+		).

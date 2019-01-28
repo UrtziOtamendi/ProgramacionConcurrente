@@ -1,0 +1,25 @@
+// Urtzi Otamendi Etxabe
+// 2017/12/07
+
+
+
+const PK = 3 // Lapikoko pieza kop max
+range PR = 0..PK
+const BK = 4 // Basatiko kop max
+range BR = 1..BK
+
+
+// Basatiak razioa hartuko du, eta jan ostean lotara joango da
+BASATIA = (hartu->jan->lo->BASATIA).
+
+//Sukaldariak lapikoa beteko du
+SUKALDARIA = (bete->SUKALDARIA).
+
+// p : lapikoan dauden pieza kopurua da
+LAPIKOA = LAPIKOA[0],
+LAPIKOA[p:PR] = (when(p>0) 		b[BR].hartu	->LAPIKOA[p-1]
+				|when(p==0) 	s.bete		->LAPIKOA[PK]
+				|				[p]			->LAPIKOA[p]
+				).
+
+|| BASATIAK1 = (LAPIKOA || b[BR]:BASATIA || s:SUKALDARIA).

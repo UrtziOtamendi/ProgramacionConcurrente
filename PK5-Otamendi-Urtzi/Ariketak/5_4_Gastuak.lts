@@ -1,0 +1,41 @@
+
+//Urtzi Otamendi Etxabe 
+//2017/12/07
+
+
+const BK = 3 // Piru Kop Max
+const PK = 2 // pisukide kopurua
+const Hartu=0
+const Bota=1
+const False=0
+const True=1
+
+
+range BR = 0..BK // Boteko diru rangoa
+range PR = 1..PK // Sukaldariak bota dezakeen puska kopuruaren rangoa
+
+range Erabakia=Hartu..Bota
+
+
+range Bool=False..True
+
+PISUKIDEA =  ( erabakiZerEgin[erabakia:Erabakia] ->
+				 if (erabakia==Hartu)	then( 
+											hartzera-> begiratu[k:BR] ->
+											if(k>0) then ( random[r:1..k]-> hartu[r] -> askatu ->PISUKIDEA )
+													else (							askatu ->PISUKIDEA))
+										else(
+											botatzera->begiratu[k:BR] ->
+													if(k<BK) then ( random[r:1..(BK-k)]-> bota[r] ->askatu ->PISUKIDEA )
+													else(										askatu ->PISUKIDEA))).
+//i: Botean dagoen dirua
+//okup: botearen egoera ; okupatua ala ez
+BOTEA = BOTEA[0][0],
+
+BOTEA [i:BR][okup:Bool]= (		when (i<BK && okup==True) 		p[PR].bota[b:1..BK-i] 	-> 	BOTEA[i+b][okup] 
+							| 	when (i>0 && okup==True) 			p[PR].hartu[b:1..i]		-> 	BOTEA[i-b][okup] 
+							|	when (okup==False) 	p[PR].begiratu[i] 		->  BOTEA[i][True]	
+							|						p[PR].askatu			->	BOTEA[i][False]
+							).
+
+||GASTUAK = (p[PR]:PISUKIDEA || BOTEA).

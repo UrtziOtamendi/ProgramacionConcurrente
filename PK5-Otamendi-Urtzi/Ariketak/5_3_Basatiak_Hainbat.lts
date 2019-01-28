@@ -1,0 +1,29 @@
+//Urtzi Otamendi Etxabe
+//2017/12/07
+
+const PK = 3 // Puska kopuru maximoa
+range PR = 0..PK // Lapikoan egon daitekeen puska kopuruaren rangoa
+range SPR = 1..PK // Sukaldariak bota dezakeen puska kopuruaren rangoa
+const BK = 2 // Basati kopurua
+range BR = 1..BK // Basatien rangoa
+range Egoera=0..1
+
+BASATIA =  ( begiratu[k:PR] ->
+							 if (k>0) then ( random[r:1..k]-> hartu[r] -> askatu -> jan -> lo ->BASATIA )
+										else 									(askatu -> BASATIA)).
+
+
+SUKALDARIA = ( begiratu[k:PR] ->
+								 if (k<PK) then ( random[r:1..PK-k]-> bota[r] -> askatu ->SUKALDARIA )
+											else 											(askatu -> SUKALDARIA)).
+//i : lapikoko razio kopurua
+// lapikoaren egoera; libre edo okupatua
+LAPIKOA = LAPIKOA[0][0],
+
+LAPIKOA [i:PR][eg:Egoera] = ( when (i<PK && eg==1) 		s.bota[b:1..PK-i] 		-> 	LAPIKOA[i+b][eg] 
+							| when (i>0 && eg==1) 		b[BR].hartu[b:1..i] 	-> 	LAPIKOA[i-b][eg] 
+							| when (eg==0) 				{s,b[BR]}.begiratu[i]   -> 	LAPIKOA[i][1]	
+							| when (eg==1)				{s,b[BR]}.askatu		->	LAPIKOA[i][0]
+							).
+
+||JANARIA = ( b[BR]:BASATIA || s:SUKALDARIA || LAPIKOA ).

@@ -1,0 +1,24 @@
+// Urtzi Otamendi Etxabe
+//2017/12/07
+
+
+const PK = 6 // Zati kopurua 
+range PR = 0..PK
+const BK = 4 // Basati kopurua 
+range BR = 1..BK
+
+
+// Basatiak razioa hartu, jan eta lotara joango da
+BASATIA = (hartu->jan->lo->BASATIA).
+
+//Sukaldariak lapikoa bete du
+SUKALDARIA = (bete->SUKALDARIA).
+
+//p geratzen den razio kopurua da.
+LAPIKOA = LAPIKOA[0],
+LAPIKOA[p:PR] = (when(p>0) 		b[BR].hartu	->LAPIKOA[p-1]
+				|when((PK-p)>2) 	s.bete		->LAPIKOA[p+3]
+				|				[p]			->LAPIKOA[p]
+				).
+
+|| BASATIAK1 = (LAPIKOA || b[BR]:BASATIA || s:SUKALDARIA).

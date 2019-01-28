@@ -1,0 +1,14 @@
+const PK = 3 
+range PR = 0..PK 
+range SPR = 1..PK 
+const BK = 2 
+range BR = 1..BK 
+BASATIA = ( hartu -> BASATIA ).
+SUKALDARIA = ( random[r:SPR] -> bota[r] ->SUKALDARIA ).
+// i: lapikoan dagoen puska kopurua
+LAPIKOA = LAPIKOA[0],
+LAPIKOA[i:PR] = ( when (i<PK) s.bota[b:1..PK-i]->
+LAPIKOA[i+b]
+| when (i>0) b[BR].hartu -> LAPIKOA[i-1]
+).
+||JANARIA = ( b[BR]:BASATIA || s:SUKALDARIA || LAPIKOA ).
